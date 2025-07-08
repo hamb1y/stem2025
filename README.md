@@ -1,48 +1,94 @@
-# Astro Starter Kit: Minimal
+# STEM 2025 - Music & HRV Research Project
 
-```sh
-pnpm create astro@latest -- --template minimal
+This project is a web-based application designed for a school STEM project. It conducts an experiment to analyze the relationship between music and human heart-rate variability (HRV). The application guides users through an interactive tour, playing various song snippets, collecting their feedback, and recording their physiological responses via an external heart rate sensor.
+
+## ✨ Features
+
+- **Interactive Experiment Flow:** A multi-page guided tour for a seamless user experience.
+- **Music Playback:** Plays 6 different song snippets to the user.
+- **Data Collection:** Gathers user information, subjective feelings, and opinions on the music.
+- **HRV Monitoring:** Interfaces with an Arduino and a MAX30102 sensor to collect heart-rate variability data in the background.
+- **Theming:** Includes a light/dark mode theme switcher.
+
+## 💻 Tech Stack
+
+- **Frontend:** [Astro.js](https://astro.build/)
+- **Backend (Planned):** [Python (Flask)](https://flask.palletsprojects.com/)
+- **Hardware:**
+  - Arduino Nano (CH340)
+  - MAX30102 Pulse Oximeter and Heart-Rate Sensor
+
+## 🚀 Project Setup & Usage
+
+To run this project locally, follow these steps:
+
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository-url>
+    cd stem2025
+    ```
+
+2.  **Install dependencies:**
+    This project uses [pnpm](https://pnpm.io/) as the package manager.
+    ```bash
+    pnpm install
+    ```
+
+3.  **Run the development server:**
+    ```bash
+    pnpm dev
+    ```
+    This will start the development server, typically at `http://localhost:4321`.
+
+4.  **Build for production:**
+    ```bash
+    pnpm build
+    ```
+
+5.  **Preview the production build:**
+    ```bash
+    pnpm preview
+    ```
+
+## 🔬 Hardware Setup
+
+The application is designed to work with an Arduino Nano connected to a MAX30102 heart rate sensor to collect HRV data.
+
+-   **Connection:**
+    -   **MAX30102 VCC** -> **Arduino 5V**
+    -   **MAX30102 GND** -> **Arduino GND**
+    -   **MAX30102 SDA** -> **Arduino A4** (I2C Data)
+    -   **MAX30102 SCL** -> **Arduino A5** (I2C Clock)
+-   **Arduino Code:** The Arduino must be programmed with a sketch that reads data from the sensor and sends it over the serial port. See `GEMINI.md` for a code example and library recommendations.
+
+## 📊 Data Structure
+
+The application collects all experiment data into a single JSON object per user "tour". The backend will be responsible for receiving and storing these objects.
+
+```json
+{
+  "DATE": "<T:{UNIXTIME}>",
+  "USER INFO": {
+    "USER NAME": "{USER PROVIDED STRING}",
+    "USER AGE": "{USER PROVIDED INTEGER}",
+    "USER DEMOGRAPHIC": "{STRING SET BASED ON USER AGE}"
+  },
+  "TRACKS": {
+    "1": {
+      "SONG_NAME": "...",
+      "SONG_ID": "...",
+      "USER_AVERAGE_HRV": "...",
+      "USER_OPINION": "...",
+      "USER_FEELING": "...",
+      "SONG_TEMPO": "...",
+      "SONG_GENRE": "...",
+      "SONG_DEMOGRAPHIC": "..."
+    },
+    "2": { "..."},
+    "3": { "..."},
+    "4": { "..."},
+    "5": { "..."},
+    "6": { "..."}
+  }
+}
 ```
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-# stem2025
