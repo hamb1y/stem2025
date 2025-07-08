@@ -1,0 +1,70 @@
+---
+// src/components/audioVisualizer.astro
+// This component visualizes the audio from a given audio element.
+
+export interface Props {
+    audioElementId: string;
+}
+
+const { audioElementId } = Astro.props;
+---
+
+<canvas id={`visualizer-${audioElementId}`} class="audio-visualizer"></canvas>
+
+<script define:vars={{ audioElementId }}>
+    document.addEventListener('DOMContentLoaded', () => {
+        const audio = document.getElementById(audioElementId);
+        const canvas = document.getElementById(`visualizer-${audioElementId}`);
+        const canvasCtx = canvas.getContext('2d');
+
+        if (!audio || !canvas || !canvasCtx) {
+            console.error('Audio element, canvas, or canvas context not found for ID:', audioElementId);
+            return;
+        }
+
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const analyser = audioContext.createAnalyser();
+        const source = audioContext.createMediaElementSource(audio);
+
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+
+        analyser.fftSize = 256;
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+
+        // Get the accent color from CSS variables
+        const accentColor = getComputedStyle(document.body).getPropertyValue('--accent-color').trim();
+
+        function draw() {
+            requestAnimationFrame(draw);
+            analyser.getByteFrequencyData(dataArray);
+            canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const barWidth = (canvas.width / bufferLength) * 2.5;
+            let x = 0;
+
+            for (let i = 0; i < bufferLength; i++) {
+                const barHeight = dataArray[i];
+                canvasCtx.fillStyle = accentColor; // Use the theme's accent color
+                canvasCtx.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight / 2);
+                x += barWidth + 1;
+            }
+        }
+
+        audio.addEventListener('play', () => {
+            if (audioContext.state === 'suspended') {
+                audioContext.resume().then(() => draw());
+            }
+        });
+
+        if (!audio.paused && audio.readyState >= 3) {
+            if (audioContext.state === 'suspended') {
+                audioContext.resume().then(() => draw());
+            }
+        }
+    });
+</script>

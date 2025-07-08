@@ -1,0 +1,72 @@
+TOUR {
+  "DATE": <T:{UNIXTIME}>
+
+  "USER INFO": {
+    "USER NAME": "{USER PROVIDED STRING}"
+    "USER AGE": {USER PROVIDED INTEGER}
+    "USER DEMOGRAPHIC": "{STRING SET BASED ON USER AGE}"
+  }
+
+  "TRACKS": {
+    1 {
+      SONG_NAME
+      SONG_ID
+      USER_AVERAGE_HRV
+      USER_OPINION
+      USER_FEELING
+      SONG_TEMPO
+      SONG_GENRE
+      SONG_DEMOGRAPHIC
+    }
+    2 {
+      SONG_NAME
+      SONG_ID
+      USER_AVERAGE_HRV
+      USER_OPINION
+      USER_FEELING
+      SONG_TEMPO
+      SONG_GENRE
+      SONG_DEMOGRAPHIC
+    }
+    3 {
+      SONG_NAME
+      SONG_ID
+      USER_AVERAGE_HRV
+      USER_OPINION
+      USER_FEELING
+      SONG_TEMPO
+      SONG_GENRE
+      SONG_DEMOGRAPHIC
+    }
+    4 {
+      SONG_NAME
+      SONG_ID
+      USER_AVERAGE_HRV
+      USER_OPINION
+      USER_FEELING
+      SONG_TEMPO
+      SONG_GENRE
+      SONG_DEMOGRAPHIC
+    }
+    5 {
+      SONG_NAME
+      SONG_ID
+      USER_AVERAGE_HRV
+      USER_OPINION
+      USER_FEELING
+      SONG_TEMPO
+      SONG_GENRE
+      SONG_DEMOGRAPHIC
+    }
+    6 {
+      SONG_NAME
+      SONG_ID
+      USER_AVERAGE_HRV
+      USER_OPINION
+      USER_FEELING
+      SONG_TEMPO
+      SONG_GENRE
+      SONG_DEMOGRAPHIC
+    }
+  }
+}

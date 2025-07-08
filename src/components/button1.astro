@@ -1,0 +1,42 @@
+---
+// src/components/button1.astro
+export interface Props {
+    label: string;
+    id?: string;
+    class?: string;
+    disabled?: boolean;
+}
+
+const { label, id, class: className, disabled = false } = Astro.props;
+---
+
+<button id={id} class:list={["button", className]} disabled={disabled}>{label}</button>
+
+<style>
+    .button {
+        display: inline-block;
+        padding: 1rem 2rem;
+        border: 2px solid var(--accent-color);
+        border-radius: 8px;
+        background-color: var(--primary-color);
+        color: var(--accent-color);
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.2rem;
+        font-weight: 500;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .button:hover {
+        background-color: var(--accent-color);
+        color: var(--primary-color);
+    }
+
+    .button:disabled {
+        background-color: var(--background-color);
+        color: var(--adaptive-gray);
+        cursor: not-allowed;
+        border-color: var(--adaptive-gray);
+    }
+</style>

@@ -1,16 +1,28 @@
 ---
-
+import Layout from "../components/Layout.astro";
+import Button from "../components/Button.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+    <h1 class="centerText">STEM Project 2025 - Psychology of Sound 🧠🎵</h1>
+    <div class="sub centerText">HEADPHONES are reccomended for this experience!2</div>
+    <div class="indexLanding doCenter">
+        <img alt="Headphones Icon" src="/icons/headphones.svg" class="icon" height="384px" width="384px">
+    </div>
+    <div class="">
+            <h2 class="">This STEM project, developed for a school project in 2025, is building a smart music 
+testing app. You’ll hear 6 different songs – each with a unique genre and tempo – and then 
+record your feedback:</h2>
+            <ul class="descStyle">
+                <li>Song Info: The track we played.</li>
+                <li>Your Details: Name & a few quick facts about you.</li>
+                <li>HRV Measurement: We’ll track your heart rate variability.</li>
+                <li>Your Reaction: Tell us how the song made you feel and what you thought!</li>
+            </ul>
+    </div>
+    <div class="doCenter">
+        <Button label="Begin Tour →" for="myButton"></Button>
+        <input type="button" id="myButton" value="Redirect" onclick="window.location.href='/interactive'" class="invisible">
+    </div>
+
+</Layout>

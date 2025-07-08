@@ -1,0 +1,40 @@
+---
+// src/components/trackPlayer.astro
+// This component will play the music snippets for the user to listen to.
+
+export interface Props {
+    songId: string;
+    songSrc: string;
+    songTitle: string;
+    startTime: number;
+    stopTime: number;
+}
+
+const { songId, songSrc, songTitle, startTime, stopTime } = Astro.props;
+---
+
+<div class="track-player">
+    <h3>{songTitle}</h3>
+    <audio id={`audio-${songId}`} src={songSrc} controls>
+        Your browser does not support the audio element.
+    </audio>
+</div>
+
+<script define:vars={{ startTime, stopTime, songId }}>
+    const audio = document.getElementById(`audio-${songId}`);
+
+    if (audio) {
+        // Set the start time once the audio metadata has loaded
+        audio.addEventListener('loadedmetadata', () => {
+            audio.currentTime = startTime;
+        });
+
+        // Check the current time and pause if it exceeds the stop time
+        audio.addEventListener('timeupdate', () => {
+            if (audio.currentTime >= stopTime) {
+                audio.pause();
+                audio.currentTime = startTime; // Reset for next play
+            }
+        });
+    }
+</script>

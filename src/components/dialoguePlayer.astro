@@ -1,0 +1,25 @@
+---
+// src/components/dialoguePlayer.astro
+// This component will play calming AI voice guidance.
+
+export interface Props {
+    dialogueId: string;
+    audioSrc: string;
+}
+
+const { dialogueId, audioSrc } = Astro.props;
+---
+
+<div class="dialogue-player">
+    <audio id={`audio-${dialogueId}`} src={audioSrc} controls>
+        Your browser does not support the audio element.
+    </audio>
+</div>
+
+<script define:vars={{ dialogueId }}>
+    const audio = document.getElementById(`audio-${dialogueId}`);
+
+    if (audio) {
+        // The audio is ready to be controlled by external buttons or scripts
+    }
+</script>

@@ -1,0 +1,26 @@
+---
+import ThemeSwitcher from "./ThemeSwitcher.astro"
+---
+<header>
+    <ThemeSwitcher />
+    <hr>
+</header>
+
+<style>
+    header {
+        display: flex;
+        justify-content: flex-end; /* Aligns items to the right */
+        align-items: center; /* Vertically centers items if they have different heights */
+        /* You might want to add some padding or gap here */
+        padding: 1rem;
+        gap: 1rem; /* Adds space between flex items */
+    }
+
+    /* Adjust hr to fit within the flex layout if needed */
+    header hr {
+        width: auto; /* Allow hr to shrink/grow as needed */
+        flex-grow: 1; /* Allow hr to take up available space */
+        border: none; /* Remove default hr border */
+        border-top: 1px solid var(--adaptive-gray); /* Apply your adaptive gray */
+    }
+</style>

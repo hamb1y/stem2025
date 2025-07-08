@@ -1,0 +1,267 @@
+---
+import Layout from "../components/Layout.astro";
+import Button1 from "../components/button1.astro";
+import dialoguePlayer from "../components/dialoguePlayer.astro";
+import trackPlayer from "../components/trackPlayer.astro";
+import audioVisualizer from "../components/audioVisualizer.astro";
+---
+
+<Layout>
+    <!-- Page 1: Introduction & Consent -->
+    <div id="page-1" class="page-container">
+        <h1 class="centerText">Welcome to the Experiment</h1>
+        <p class="sub centerText">Please follow the audio instructions to begin.</p>
+        <dialoguePlayer dialogueId="intro-dialogue" audioSrc="/sfx/dialogue/intro.mp3" />
+        <div class="form-group doCenter">
+            <input type="checkbox" id="consent-checkbox">
+            <label for="consent-checkbox">I consent to participating in this study.</label>
+        </div>
+    </div>
+
+    <!-- Page 2: User Information -->
+    <div id="page-2" class="page-container invisible">
+        <h1 class="centerText">Tell Us About Yourself</h1>
+        <dialoguePlayer dialogueId="user-info-dialogue" audioSrc="/sfx/dialogue/user-info.mp3" />
+        <div class="form-group">
+            <label for="user-name">Name</label>
+            <input type="text" id="user-name" placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+            <label for="user-age">Age</label>
+            <input type="number" id="user-age" placeholder="Enter your age">
+        </div>
+    </div>
+
+    <!-- Page 3: Hardware Setup & Baseline HRV -->
+    <div id="page-3" class="page-container invisible">
+        <h1 class="centerText">Getting Started</h1>
+        <p class="sub centerText">Please follow the audio instructions to set up the sensor.</p>
+        <dialoguePlayer dialogueId="setup-dialogue" audioSrc="/sfx/dialogue/setup.mp3" />
+        <div class="doCenter">
+            <img src="/icons/sensor-placeholder.svg" alt="Placeholder for sensor instructions" class="icon" height="256px" width="256px">
+        </div>
+        <p class="centerText">Place your finger gently on the sensor.</p>
+    </div>
+
+    <!-- Pages 4-9: Song Tests -->
+    {Array.from({ length: 6 }, (_, i) => (
+        <div id={`page-${i + 4}`} class="page-container invisible">
+            <h1 class="centerText">Song {i + 1}</h1>
+            <dialoguePlayer dialogueId={`song-${i + 1}-dialogue`} audioSrc={`/sfx/dialogue/song-${i + 1}.mp3`} />
+            <trackPlayer songId={`song-${i + 1}`} songSrc={`/sfx/songs/song${i + 1}.mp3`} songTitle={`Song ${i + 1}`} startTime={0} stopTime={30} />
+            <audioVisualizer audioElementId={`audio-song-${i + 1}`} />
+            
+            <div id={`feedback-song-${i + 1}`} class="feedback-section invisible">
+                <h2 class="centerText">Your Feedback</h2>
+                <div class="form-group">
+                    <label>How did this music make you feel?</label>
+                    <div class="radio-group">
+                        <input type="radio" id={`feeling-calm-${i + 1}`} name={`feeling-${i + 1}`} value="Calm">
+                        <label for={`feeling-calm-${i + 1}`}>Calm</label>
+                        <input type="radio" id={`feeling-energized-${i + 1}`} name={`feeling-${i + 1}`} value="Energized">
+                        <label for={`feeling-energized-${i + 1}`}>Energized</label>
+                        <input type="radio" id={`feeling-neutral-${i + 1}`} name={`feeling-${i + 1}`} value="Neutral">
+                        <label for={`feeling-neutral-${i + 1}`}>Neutral</label>
+                        <input type="radio" id={`feeling-other-${i + 1}`} name={`feeling-${i + 1}`} value="Other">
+                        <label for={`feeling-other-${i + 1}`}>Other</label>
+                    </div>
+                    <textarea id={`feeling-custom-${i + 1}`} class="invisible" placeholder="Please describe the feeling"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>What is your opinion of this music?</label>
+                    <div class="radio-group">
+                        <input type="radio" id={`opinion-liked-${i + 1}`} name={`opinion-${i + 1}`} value="Liked">
+                        <label for={`opinion-liked-${i + 1}`}>Liked It</label>
+                        <input type="radio" id={`opinion-disliked-${i + 1}`} name={`opinion-${i + 1}`} value="Disliked">
+                        <label for={`opinion-disliked-${i + 1}`}>Disliked It</label>
+                        <input type="radio" id={`opinion-no-opinion-${i + 1}`} name={`opinion-${i + 1}`} value="No Opinion">
+                        <label for={`opinion-no-opinion-${i + 1}`}>No Opinion</label>
+                        <input type="radio" id={`opinion-other-${i + 1}`} name={`opinion-${i + 1}`} value="Other">
+                        <label for={`opinion-other-${i + 1}`}>Other</label>
+                    </div>
+                    <textarea id={`opinion-custom-${i + 1}`} class="invisible" placeholder="Please describe your opinion"></textarea>
+                </div>
+            </div>
+        </div>
+    ))}
+
+    <!-- Page 10: Completion -->
+    <div id="page-10" class="page-container invisible">
+        <h1 class="centerText">Thank You!</h1>
+        <p class="sub centerText">Your participation is greatly appreciated.</p>
+        <dialoguePlayer dialogueId="outro-dialogue" audioSrc="/sfx/dialogue/outro.mp3" />
+    </div>
+
+    <!-- Navigation interactiveButtons -->
+    <div class="doCenter">
+        <Button1 label="Back" id="back-Button" />
+        <Button1 label="Next" id="next-Button" disabled={true} />
+    </div>
+</Layout>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let currentPage = 1;
+        const totalPages = 10;
+        const tourData = {
+            DATE: Math.floor(Date.now() / 1000),
+            "USER INFO": {},
+            TRACKS: {}
+        };
+
+        const pages = Array.from({ length: totalPages }, (_, i) => document.getElementById(`page-${i + 1}`));
+        const backButton = document.getElementById('back-Button');
+        const nextButton = document.getElementById('next-Button');
+        const consentCheckbox = document.getElementById('consent-checkbox');
+
+        // Store audio elements for easy access
+        const songAudios = {};
+        for (let i = 1; i <= 6; i++) {
+            songAudios[i] = document.getElementById(`audio-song-${i}`);
+        }
+
+        function updatePageVisibility() {
+            pages.forEach((page, index) => {
+                page.classList.toggle('invisible', index + 1 !== currentPage);
+            });
+            backButton.style.display = currentPage === 1 ? 'none' : 'inline-block';
+            nextButton.textContent = currentPage === totalPages ? 'Finish and Submit' : 'Next';
+            validateCurrentPage();
+        }
+
+        function validateCurrentPage() {
+            let isPageValid = false;
+            switch (currentPage) {
+                case 1:
+                    isPageValid = consentCheckbox.checked;
+                    break;
+                case 2:
+                    const name = document.getElementById('user-name').value;
+                    const age = document.getElementById('user-age').value;
+                    isPageValid = name.trim() !== '' && age.trim() !== '' && !isNaN(parseInt(age, 10));
+                    break;
+                case 3:
+                    // For now, assume valid. In a real scenario, this would involve Arduino interaction.
+                    isPageValid = true;
+                    break;
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                    const songIndex = currentPage - 3;
+                    const audio = songAudios[songIndex];
+                    const feedbackSection = document.getElementById(`feedback-song-${songIndex}`);
+
+                    // Check if audio has ended and feedback section is visible
+                    if (audio.ended && !feedbackSection.classList.contains('invisible')) {
+                        const selectedFeeling = document.querySelector(`input[name="feeling-${songIndex}"]:checked`);
+                        const customFeeling = document.getElementById(`feeling-custom-${songIndex}`);
+                        const selectedOpinion = document.querySelector(`input[name="opinion-${songIndex}"]:checked`);
+                        const customOpinion = document.getElementById(`opinion-custom-${songIndex}`);
+
+                        const isFeelingValid = selectedFeeling && (selectedFeeling.value !== 'Other' || customFeeling.value.trim() !== '');
+                        const isOpinionValid = selectedOpinion && (selectedOpinion.value !== 'Other' || customOpinion.value.trim() !== '');
+                        
+                        isPageValid = isFeelingValid && isOpinionValid;
+                    } else {
+                        isPageValid = false;
+                    }
+                    break;
+                case 10:
+                    isPageValid = true; // Final page, always valid to proceed (to submission)
+                    break;
+                default:
+                    isPageValid = true;
+            }
+            nextButton.disabled = !isPageValid;
+        }
+
+        function collectData() {
+            if (currentPage === 2) {
+                const name = document.getElementById('user-name').value;
+                const age = document.getElementById('user-age').value;
+                tourData["USER INFO"] = { "USER NAME": name, "USER AGE": parseInt(age, 10) };
+            }
+            if (currentPage >= 4 && currentPage <= 9) {
+                const songIndex = currentPage - 3;
+                const feelingRadio = document.querySelector(`input[name="feeling-${songIndex}"]:checked`);
+                const opinionRadio = document.querySelector(`input[name="opinion-${songIndex}"]:checked`);
+
+                let feelingValue = feelingRadio ? feelingRadio.value : '';
+                if (feelingValue === 'Other') {
+                    feelingValue = document.getElementById(`feeling-custom-${songIndex}`).value;
+                }
+
+                let opinionValue = opinionRadio ? opinionRadio.value : '';
+                if (opinionValue === 'Other') {
+                    opinionValue = document.getElementById(`opinion-custom-${songIndex}`).value;
+                }
+
+                tourData.TRACKS[songIndex] = {
+                    USER_FEELING: feelingValue,
+                    USER_OPINION: opinionValue,
+                };
+            }
+        }
+
+        backButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePageVisibility();
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (nextButton.disabled) return;
+            collectData();
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePageVisibility();
+            }
+            else {
+                // Final submission logic
+                console.log("Submitting tour data:", JSON.stringify(tourData, null, 2));
+                // In the future, this will be a fetch request to the backend.
+                alert("Thank you for your submission!");
+            }
+        });
+
+        // Event listeners for validation
+        consentCheckbox.addEventListener('change', validateCurrentPage);
+        document.getElementById('user-name').addEventListener('input', validateCurrentPage);
+        document.getElementById('user-age').addEventListener('input', validateCurrentPage);
+
+        // Logic for song pages
+        for (let i = 1; i <= 6; i++) {
+            const audio = songAudios[i];
+            const feedbackSection = document.getElementById(`feedback-song-${i}`);
+            
+            audio.addEventListener('ended', () => {
+                feedbackSection.classList.remove('invisible');
+                feedbackSection.scrollIntoView({ behavior: 'smooth' });
+                validateCurrentPage(); // Re-validate when audio ends
+            });
+
+            // Show/hide custom textareas and re-validate
+            document.querySelectorAll(`input[name="feeling-${i}"]`).forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    document.getElementById(`feeling-custom-${i}`).classList.toggle('invisible', e.target.value !== 'Other');
+                    validateCurrentPage();
+                });
+            });
+            document.querySelectorAll(`input[name="opinion-${i}"]`).forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    document.getElementById(`opinion-custom-${i}`).classList.toggle('invisible', e.target.value !== 'Other');
+                    validateCurrentPage();
+                });
+            });
+            document.getElementById(`feeling-custom-${i}`).addEventListener('input', validateCurrentPage);
+            document.getElementById(`opinion-custom-${i}`).addEventListener('input', validateCurrentPage);
+        }
+
+        // Initial setup
+        updatePageVisibility();
+    });
+</script>
