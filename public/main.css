@@ -1,0 +1,513 @@
+/* ==========================================================================
+   1. FONT DEFINITIONS
+   ========================================================================== */
+
+@font-face {
+  font-family: "Lato";
+  src: url("/fonts/latoR.ttf");
+}
+
+@font-face {
+  font-family: "Crete";
+  src: url("/fonts/creteRoundR.ttf");
+}
+
+/* ==========================================================================
+   2. THEME VARIABLES
+   ========================================================================== */
+
+:root {
+  --primary-color: #ffffff;
+  --background-color: #f7f9f8;
+  --secondary-color: #111312;
+  --adaptive-gray: #6b6b6b;
+  --accent-color: var(--secondary-color);
+  --text-color: #111312;
+}
+
+body:has(#dark:checked) {
+  --primary-color: #111312;
+  --background-color: #111312;
+  --secondary-color: #f7f9f8;
+  --adaptive-gray: #c1c1c1;
+  --accent-color: var(--secondary-color);
+  --text-color: #f7f9f8;
+}
+
+/* ==========================================================================
+   3. BASE & TYPOGRAPHY
+   ========================================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Lato", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+h1, h2, h3, h4, h5, h6, .title {
+  font-family: "Crete", serif;
+  margin-bottom: 0.5rem;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+.sub {
+  color: var(--adaptive-gray);
+  font-size: 1.5rem;
+}
+
+ul.descStyle li {
+  font-size: 2rem;
+}
+
+/* ==========================================================================
+   4. FORMS & INPUTS
+   ========================================================================== */
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+.textarea {
+  width: 100%;
+  padding: 1rem;
+  background: var(--primary-color);
+  color: var(--text-color);
+  font-size: 2rem;
+}
+
+.radio-group label {
+  display: inline-block;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.themeSwitcher input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* ==========================================================================
+   5. BUTTONS
+   ========================================================================== */
+
+.button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--accent-color);
+  border-radius: 8px;
+  background: var(--primary-color);
+  color: var(--accent-color);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.button:hover {
+  background: var(--accent-color);
+  color: var(--primary-color);
+}
+
+.button[disabled] {
+  border-color: var(--adaptive-gray);
+  color: var(--adaptive-gray);
+  cursor: not-allowed;
+}
+
+.button[disabled]:hover {
+  background: var(--primary-color);
+}
+
+/* ==========================================================================
+   6. UTILITIES & GLOBALS
+   ========================================================================== */
+
+.doCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.doRight {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 1rem;
+  width: 100%;
+}
+
+.centerText {
+  text-align: center;
+}
+
+.invisible,
+button.hamburger.secondary.nvisible {
+  display: none !important;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--adaptive-gray);
+  margin: 2rem 0;
+}
+
+p,
+ul,
+li,
+ol {
+  padding-left: 1rem;
+}
+
+/* ==========================================================================
+   7. HEADER & NAVBAR
+   ========================================================================== */
+
+header {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+header hr {
+  flex-grow: 1;
+  border-top: 1px solid var(--adaptive-gray);
+}
+
+.navbar {
+  list-style: none;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.navbar a {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--accent-color);
+  border-radius: 8px;
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.navbar a:hover {
+  background: var(--accent-color);
+  color: var(--primary-color);
+}
+
+/* ==========================================================================
+   8. THEME-SWITCHER ICONS & LOGOS
+   ========================================================================== */
+
+body:has(#dark:checked) img.icon {
+  filter: invert(100%);
+}
+
+body:has(#dark:checked) .logo-light {
+  display: none;
+}
+
+body:has(#dark:checked) .logo-dark {
+  display: block;
+}
+
+body:has(#light:checked) .logo-dark {
+  display: none;
+}
+
+body:has(#light:checked) .logo-light {
+  display: block;
+}
+
+/* ==========================================================================
+   9. BLOG GRID & CARDS
+   ========================================================================== */
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--background-color);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.blog-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--accent-color);
+}
+
+.blog-thumb {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  background: var(--adaptive-gray);
+}
+
+.blog-content {
+  padding: 1rem;
+}
+
+.blog-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--accent-color);
+  margin-bottom: 0.5rem;
+}
+
+.blog-date {
+  font-size: 0.9rem;
+  color: var(--adaptive-gray);
+}
+
+/* ==========================================================================
+   10. POST LAYOUT
+   ========================================================================== */
+
+.post-layout {
+  padding: 2rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.post-layout h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: var(--accent-color);
+}
+
+/* ==========================================================================
+   11. MOBILE NAV (FINAL ADJUSTMENT)
+   ========================================================================== */
+
+/* Hide the toggle checkbox */
+.nav-toggle {
+  display: none;
+}
+
+/* Desktop view: horizontal nav, hide hamburger */
+@media (min-width: 821px) {
+  .hamburger {
+    display: none;
+  }
+
+  nav.navbar {
+    display: flex;
+    flex-direction: row;
+    position: static;
+    transform: none;
+    background: none;
+    padding: 0;
+  }
+}
+
+/* Mobile view: hide horizontal nav, show hamburger */
+@media (max-width: 1000px) {
+  .hamburger {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--accent-color);
+    z-index: 1051;
+  }
+
+  nav.navbar {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 70%;
+    max-width: 300px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    padding: 4rem 1rem;
+    transition: transform 0.3s ease;
+    transform: translateX(-100%);
+    z-index: 1050;
+  }
+
+  /* Slide in when toggle is checked */
+  .nav-toggle:checked ~ nav.navbar {
+    transform: translateX(0);
+  }
+
+  .navbar ul li {
+    margin-block: 1vh;
+    display: block;
+  }
+}
+
+.navbar li {
+  list-style-type: none;
+  white-space: nowrap;
+  padding: 1rem;
+}
+
+@media (min-width: 1001px) {
+  /* styles for desktop */
+  .navbar ul {
+    gap: 0.5rem;
+    display: flex;
+  }
+}
+
+/* src/components/RecentBlogs.css */
+
+/* 1) Horizontal scroll container */
+.recent-blogs {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 1rem 0;
+  scroll-snap-type: x mandatory;
+}
+
+/* Hide scrollbar in Firefox */
+.recent-blogs {
+  scrollbar-width: thin;
+  scrollbar-color: var(--adaptive-gray) transparent;
+}
+
+/* Chrome/Safari */
+.recent-blogs::-webkit-scrollbar {
+  height: 6px;
+}
+.recent-blogs::-webkit-scrollbar-thumb {
+  background: var(--adaptive-gray);
+  border-radius: 3px;
+}
+
+/* 2) Card base */
+.blog-card {
+  flex: 0 0 auto;
+  min-width: 240px;
+  background: var(--primary-color);
+  border: 1px solid var(--adaptive-gray);
+  border-radius: 8px;
+  overflow: hidden;
+  scroll-snap-align: start;
+  transition: box-shadow 0.2s ease;
+}
+
+/* 3) Thumbnail */
+.blog-card .thumb img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+}
+
+/* 4) Info area */
+.blog-card .info {
+  padding: 0.75rem 1rem;
+}
+.blog-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  color: var(--accent-color);
+}
+.blog-card time {
+  font-size: 0.85rem;
+  color: var(--adaptive-gray);
+}
+
+/* 5) Hover state */
+.blog-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: var(--accent-color);
+}
+
+.card {
+  display: block;
+  background: var(--background-color);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--accent-color);
+}
+
+.card-thumb {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  background: var(--adaptive-gray);
+}
+
+.card-content {
+  padding: 1rem;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--accent-color);
+  margin-bottom: 0.5rem;
+}
+
+.card-date {
+  font-size: 0.9rem;
+  color: var(--adaptive-gray);
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+}

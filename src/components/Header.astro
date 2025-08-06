@@ -1,0 +1,25 @@
+---
+import ThemeSwitcher from "./ThemeSwitcher.astro"
+import Button from "./Button.astro"
+---
+<header class="site-header">
+  <input type="checkbox" id="menu-toggle" class="nav-toggle" aria-hidden="true" />
+
+  <label for="menu-toggle" class="hamburger" aria-label="Toggle navigation">&#9776;</label>
+
+  <img src="/images/logo.webp" alt="Logo light" height="80px" class="logo-light" />
+  <img src="/images/logo-dark.webp" alt="Logo dark" height="80px" class="logo-dark" />
+
+  <nav class="navbar" aria-hidden="false">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About Us</a></li>
+      <li><a href="/blogs">Blogs</a></li>
+      <li><a href="/editable/faq">FAQ</a></li>
+      <li><a href="/students">Student's Corner</a></li>
+      <li><a href="https://dynatemp-testing.netlify.app/admin/index.html">Admin Login</a></li>
+    </ul>
+  </nav>
+
+  <ThemeSwitcher />
+</header>

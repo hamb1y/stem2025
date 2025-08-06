@@ -1,0 +1,12 @@
+---
+// src/components/Button.astro
+export interface Props {
+    label: string;
+    for: string;
+    class?: string;
+}
+
+const { label, for: forId, class: className } = Astro.props;
+---
+
+<label for={forId} class:list={["button", className]}>{label}</label>
