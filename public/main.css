@@ -45,8 +45,18 @@ body:has(#dark:checked) {
 }
 
 body {
+  --surface: var(--primary-color);
+  --surface-dark: var(--background-color);
+  --accent: var(--accent-color);
+  --primary: var(--secondary-color);
+  --button-bg: var(--background-color);
+  --shadow-card: 0 2px 32px 0 rgba(12,16,25,.09);
+  --shadow-btn: 0 1px 12px 0 rgba(12,16,25,.08);
+  --text-secondary: var(--adaptive-gray);
+  --radius: 1.25rem;
   background-color: var(--background-color);
   color: var(--text-color);
+  --seekbar-gradient: linear-gradient(90deg, #219ebc, #8ecae6);
 }
 
 h1, h2, h3, h4, h5, h6, .title {
@@ -510,4 +520,74 @@ a:hover {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
   padding: 1rem;
+}
+
+{}
+
+.trackplayer {
+  display: flex;
+  align-items: center;
+  background: var(--surface, #151516);
+  box-shadow: var(--shadow-card, 0 2px 32px 0 rgba(12,16,25,.16));
+  border-radius: var(--radius, 1.25rem);
+  padding: 1.1rem 1.7rem;
+  margin: 1.3rem 0;
+  gap: 1.3rem;
+  max-width: 520px;
+  width: 100%;
+}
+
+.tp-btn {
+  background: var(--button-bg, #181818);
+  color: var(--accent, #8ecae6);
+  border: none;
+  border-radius: 50%;
+  width: 2.65rem;
+  height: 2.65rem;
+  font-size: 1.55rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-btn, 0 1px 12px 0 rgba(12,16,25,.13));
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, opacity 0.15s;
+  outline: none;
+}
+.tp-btn:hover,
+.tp-btn:focus-visible {
+  background: var(--accent, #8ecae6);
+  color: var(--button-bg, #181818);
+}
+
+.tp-btn[disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.tp-seekbar-bg {
+  flex: 1;
+  height: 8px;
+  background: var(--surface-dark, #23232b);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.tp-seekbar-fill {
+  background: var(--seekbar-gradient);
+  height: 100%;
+  width: 0;
+  transition: width 0.12s linear;
+  border-radius: 8px 0 0 8px;
+}
+
+#tp-time {
+  min-width: 78px;
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.06rem;
+  color: var(--text-secondary, #e9ecef);
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
 }
