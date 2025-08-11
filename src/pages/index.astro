@@ -1,8 +1,26 @@
 ---
 import Card from "../components/Card.astro";
+import DialoguePlayer from "../components/DialoguePlayer.astro";
 import Layout from "../components/Layout.astro";
 import TrackPlayer from "../components/TrackPlayer.astro";
+import Questionnaire from "../components/Questionnaire.astro";
+import Camera from "../components/Camera.astro";
 ---
 <Layout>
-   <TrackPlayer src="/audio/tracks/rapture-cut.wav"/>
+   <div class="doCenter">
+    <h1>Welcome to the Music Test</h1>
+    <TrackPlayer src="/audio/tracks/rapture-cut.wav"/>
+    <DialoguePlayer src="/audio/tracks/rapture-cut.wav"/>
+    <Questionnaire
+      question="Pick your age group"
+      name="age"
+      endpoint="http://localhost:5050/api/answers"
+      meta={{ sessionId: "S1", questionKey: "age" }}
+      options={[
+         { label: "Under 13", value: "u13" },
+         { label: "13–15", value: "13_15" },
+         { label: "16–18", value: "16_18" }
+      ]}
+    />
+    <Camera endpoint="http://localhost:5050/api/upload-photo" sessionId="S1" />
 </Layout>
